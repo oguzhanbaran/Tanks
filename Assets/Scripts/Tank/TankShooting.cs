@@ -63,7 +63,7 @@ public class TankShooting : MonoBehaviour
         // If the max force has been exceeded and the shell hasn't yet been launched...
         if (m_CurrentLaunchForce >= m_MaxLaunchForce)// && !m_Fired)
         {
-            Debug.Log("Condition1");
+            
             // ... use the max force and launch the shell.
             m_CurrentLaunchForce = m_MaxLaunchForce;
             Fire();
@@ -131,7 +131,7 @@ public class TankShooting : MonoBehaviour
     {
         
         yield return new WaitForSeconds(m_ShootCooldownDuration);
-        Debug.Log("Ates etti");
+        
         m_CanShoot = true;
     }
     

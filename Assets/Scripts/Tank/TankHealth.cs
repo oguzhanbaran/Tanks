@@ -10,7 +10,7 @@ public class TankHealth : MonoBehaviour
     public Color m_FullHealthColor = Color.green;  
     public Color m_ZeroHealthColor = Color.red;    
     public GameObject m_ExplosionPrefab;
-    
+    public static float mineAmount;
     
     private AudioSource m_ExplosionAudio;          
     private ParticleSystem m_ExplosionParticles;   
@@ -36,6 +36,11 @@ public class TankHealth : MonoBehaviour
     }
     void Update()
     {
+        if (mineAmount>0)
+        {
+            TakeDamage(mineAmount);
+        }
+        mineAmount = 0;
         Health = m_CurrentHealth;
     }
 
@@ -45,7 +50,6 @@ public class TankHealth : MonoBehaviour
 
         // Change the UI elements appropriately.
         SetHealthUI();
-
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth <= 0f && !m_Dead)
         {

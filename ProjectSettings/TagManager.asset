@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Building
   - Tank
+  - Bullet
+  - Floor
   layers:
   - Default
   - TransparentFX

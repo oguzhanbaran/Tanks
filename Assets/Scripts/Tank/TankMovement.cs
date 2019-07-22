@@ -2,6 +2,7 @@
 
 public class TankMovement : MonoBehaviour
 {
+    [HideInInspector]public static bool setJump =false;
     public int m_PlayerNumber = 1;
     public float m_Speed = 20f;
     public float m_TurnSpeed = 180f;
@@ -33,7 +34,18 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-
+    private void onJump()
+    {
+        if (setJump==true)
+        {
+            Debug.Log("Zıpla");
+            gameObject.GetComponent<Rigidbody>().AddForce(0,500f,0);
+            //gameObject.GetComponent<Rigidbody>().mass = 10;
+        }
+        setJump = false;
+        
+        
+    }
     private void OnEnable()
     {
         m_Rigidbody.isKinematic = false;
@@ -59,10 +71,11 @@ public class TankMovement : MonoBehaviour
 
     private void Update()
     {
+        onJump();
         finishTime();
         m_MovementInputValue = -Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-
+        
         EngineAudio();
     }
 
@@ -97,6 +110,7 @@ public class TankMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         if ((m_MovementInputValue >=0.1f || m_MovementInputValue<=-0.1f))
         {
             Move();
@@ -110,10 +124,15 @@ public class TankMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 movement = transform.forward * m_MovementInputValue * m_Speed *0.02f;
 
-        // Apply this movement to the rigidbody's position.
-        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        if (gameObject.transform.position.y<0.2f)
+        {
+            Vector3 movement = transform.forward * m_MovementInputValue * m_Speed * 0.02f;
+
+            // Apply this movement to the rigidbody's position.
+            m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        }
+        
     }
 
 
