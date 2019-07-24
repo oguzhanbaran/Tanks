@@ -4,7 +4,8 @@ using System.Collections;
 using System;
 public class TankShooting : MonoBehaviour
 {
-   
+    
+    public GameObject mine;
     public int m_PlayerNumber = 2;       
     public Rigidbody m_Shell;            
     public Transform m_FireTransform;    
@@ -16,17 +17,21 @@ public class TankShooting : MonoBehaviour
     public float m_MaxLaunchForce = 100f; 
     public float m_MaxChargeTime = 1.5f;
     public float m_ShootCooldownDuration = 0.5f;
+
     float lastThrowDate;
-    //public float time;
-    
-    
+    Vector3 minePosition;
+
+
+    private int mineCount = 5;
+    private string m_DropMineButton;
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  
     private float m_ChargeSpeed;         
     private bool m_Fired;         
     private bool m_CanShoot;
     private float time2;
-    private float time1;
+    private float mineTime;
+    private float shootTime;
 
 
     private void OnEnable()
@@ -38,10 +43,10 @@ public class TankShooting : MonoBehaviour
 
     private void Start()
     {
-
+        mineTime = Time.time;
         m_CanShoot = true;
         m_FireButton = "Fire" + m_PlayerNumber;
-
+        m_DropMineButton = "DropMine" + m_PlayerNumber;
         m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
     }
     
@@ -54,8 +59,10 @@ public class TankShooting : MonoBehaviour
         }
         
     }
+
     private void Update()
     {
+        dropMine();
         finishTime();
         // The slider should have a default value of the minimum launch force.
         m_AimSlider.value = m_MinLaunchForce;
@@ -93,13 +100,27 @@ public class TankShooting : MonoBehaviour
             Fire();        
         }
     }
-
+    private void dropMine()
+    {
+        minePosition = gameObject.transform.position + transform.forward * -1.0f * 2;
+        if (Time.time-mineTime>10f)
+        {
+            if (Input.GetButtonDown(m_DropMineButton) && gameObject.transform.position.y <= 0.2f && mineCount > 0)
+            {
+                mineTime = Time.time;
+                mineCount--;
+                Instantiate(mine, minePosition, Quaternion.identity);
+            }
+        }
+        
+        
+    }
 
     private void Fire()
     {
          if (m_CanShoot)
          {
-            time1 = Time.time;
+            shootTime = Time.time;
             m_Fired = true;
             m_CanShoot = false;
             // Create an instance of the shell and store a reference to it's rigidbody.
@@ -120,7 +141,7 @@ public class TankShooting : MonoBehaviour
         }
          else
         {
-            if (Time.time-time1>=0.5f)
+            if (Time.time-shootTime>=0.5f)
             {
                 m_CanShoot = true;
             }

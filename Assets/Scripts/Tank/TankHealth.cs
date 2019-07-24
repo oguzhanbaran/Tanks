@@ -36,11 +36,7 @@ public class TankHealth : MonoBehaviour
     }
     void Update()
     {
-        if (mineAmount>0)
-        {
-            TakeDamage(mineAmount);
-        }
-        mineAmount = 0;
+        
         Health = m_CurrentHealth;
     }
 

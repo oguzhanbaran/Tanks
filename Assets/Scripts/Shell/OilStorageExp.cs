@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OilStorageExp : MonoBehaviour
 {
+    public float mineDamage = 10f;
     public ParticleSystem[] explosion = new ParticleSystem[2];
     public void Awake()
     {
@@ -18,17 +19,18 @@ public class OilStorageExp : MonoBehaviour
     }
     public void OnCollisionEnter(Collision collision)
     {
+        Vector3 explosionPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
         if (collision.transform.CompareTag("Tank"))
         {
             for (int i = 0; i <= 2; i++)
-            {
-                Vector3 explosionPosition = new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z);
+            {  
                 explosion[i].gameObject.SetActive(true);
                 explosion[i].Play();
-                gameObject.GetComponent<Rigidbody>().AddExplosionForce(10000f, explosionPosition, 10f);
-                TankMovement.setJump = true;
-                TankHealth.mineAmount = 20f;
+                
             }
+            collision.gameObject.GetComponent<TankMovement>().setJump = true;
+            gameObject.GetComponent<Rigidbody>().AddExplosionForce(10000f, explosionPosition, 10f);
+            collision.gameObject.GetComponent<TankHealth>().TakeDamage(mineDamage);
             StartCoroutine(CoolDown());
             
         }

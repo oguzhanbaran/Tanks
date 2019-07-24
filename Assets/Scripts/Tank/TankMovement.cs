@@ -2,7 +2,8 @@
 
 public class TankMovement : MonoBehaviour
 {
-    [HideInInspector]public static bool setJump =false;
+    [HideInInspector]public bool setJump =false;
+    [HideInInspector] public float tankSpeed;
     public int m_PlayerNumber = 1;
     public float m_Speed = 20f;
     public float m_TurnSpeed = 180f;
@@ -40,7 +41,6 @@ public class TankMovement : MonoBehaviour
         {
             Debug.Log("Zıpla");
             gameObject.GetComponent<Rigidbody>().AddForce(0,500f,0);
-            //gameObject.GetComponent<Rigidbody>().mass = 10;
         }
         setJump = false;
         
@@ -71,6 +71,7 @@ public class TankMovement : MonoBehaviour
 
     private void Update()
     {
+        tankSpeed = m_MovementInputValue * m_Speed * 0.02f;
         onJump();
         finishTime();
         m_MovementInputValue = -Input.GetAxis(m_MovementAxisName);
