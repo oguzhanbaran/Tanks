@@ -35,16 +35,9 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void onJump()
-    {
-        if (setJump==true)
-        {
-            Debug.Log("Zıpla");
-            gameObject.GetComponent<Rigidbody>().AddForce(0,500f,0);
-        }
-        setJump = false;
-        
-        
+    public void onJump()
+    {     
+            gameObject.GetComponent<Rigidbody>().AddForce(0,400f,0);
     }
     private void OnEnable()
     {
@@ -71,12 +64,9 @@ public class TankMovement : MonoBehaviour
 
     private void Update()
     {
-        tankSpeed = m_MovementInputValue * m_Speed * 0.02f;
-        onJump();
         finishTime();
         m_MovementInputValue = -Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-        
         EngineAudio();
     }
 
@@ -116,7 +106,6 @@ public class TankMovement : MonoBehaviour
         {
             Move();
             
-
         }
         Turn();
 

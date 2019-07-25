@@ -20,11 +20,7 @@ public class CollisionSc : MonoBehaviour
                 
             }
         }
-        else
-        {
-            Vector3 newPosition = new Vector3(Random.Range(-40, 40), 1, Random.Range(-40, 40));
-            transform.position = newPosition;
-        }
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
