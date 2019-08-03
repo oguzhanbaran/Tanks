@@ -28,8 +28,8 @@ public class OilStorageExp : MonoBehaviour
                 explosion[i].Play();
                 
             }
-            collision.gameObject.GetComponent<TankMovement>().setJump = true;
-            gameObject.GetComponent<Rigidbody>().AddExplosionForce(10000f, explosionPosition, 10f);
+            collision.gameObject.GetComponent<TankMovement>().onJump();
+            
             collision.gameObject.GetComponent<TankHealth>().TakeDamage(mineDamage);
             StartCoroutine(CoolDown());
             
@@ -37,7 +37,7 @@ public class OilStorageExp : MonoBehaviour
     }
     public IEnumerator CoolDown()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 }
